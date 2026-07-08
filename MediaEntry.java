@@ -4,6 +4,7 @@ public abstract class MediaEntry {
     private String currentStatus;
     private int rating;
     private String review;
+    public static final String[] STATUSES = {"Planned","In Progress","Completed"};
 
     public MediaEntry(String title, String genre, String currentStatus) {
         this.title = title;
