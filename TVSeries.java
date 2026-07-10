@@ -10,6 +10,18 @@ public class TVSeries extends MediaEntry {
         this.episodes = new ArrayList<>();
     }
 
+    public int getTotalEpisodes() { 
+        return totalEpisodes; 
+    }
+
+    public void setTotalEpisodes(int totalEpisodes) {
+        this.totalEpisodes = totalEpisodes; 
+    }
+
+    public ArrayList<Episode> getEpisodes() { 
+        return episodes; 
+    }
+
     public void addEpisode(Episode ep) {
         episodes.add(ep);
     }
