@@ -10,6 +10,6 @@ public class Episode {
     }
     
     public void displayDetails() {
-        
+        System.out.println("Season " + season + " Ep " + episodeNumber + ": " + title);
     }
 }
