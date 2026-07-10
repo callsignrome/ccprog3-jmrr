@@ -10,7 +10,7 @@ public class Movie extends MediaEntry {
 
     public void displayDetails() {
         System.out.println("[Movie] " + getTitle());
-        System.out.println("Director: " + director)
+        System.out.println("Director: " + director);
         System.out.println("Genre: " + getGenre() + " | Status: " + getStatus());
         System.out.println("Runtime: " + runtimeMinutes + " mins");
         System.out.println("---------------------------------------------------------");
