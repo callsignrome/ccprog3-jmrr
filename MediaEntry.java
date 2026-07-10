@@ -16,6 +16,18 @@ public abstract class MediaEntry {
         return this.title;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
     public String getCurrentStatus() {
         return this.currentStatus;
     }
