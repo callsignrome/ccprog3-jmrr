@@ -9,6 +9,10 @@ public class Book extends MediaEntry {
     }
 
     public void displayDetails() {
-
+        System.out.println("[Book] " + getTitle());
+        System.out.println("Author: " + author);
+        System.out.println("Genre: " + getGenre() + " | Status: " + getStatus());
+        System.out.println("Length: " + pageCount + " pages");
+        System.out.println("---------------------------------------------------------");
     }
 }

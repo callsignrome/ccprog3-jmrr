@@ -15,6 +15,9 @@ public class TVSeries extends MediaEntry {
     }
 
     public void displayDetails() {
-
+        System.out.println("[TV Series] " + getTitle());
+        System.out.println("Genre: " + getGenre() + " | Status: " + getStatus());
+        System.out.println("Episodes Tracked: " + episodes.size() + " / " + totalEpisodes);
+        System.out.println("---------------------------------------------------------");
     }
 }
