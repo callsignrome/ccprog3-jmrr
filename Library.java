@@ -14,10 +14,10 @@ public class Library {
     public void rateEntry(MediaEntry m, int rating, String review) {
         if (m.getCurrentStatus().equals(MediaEntry.STATUSES[2])) {
             // input validation for out of bounds rating
-            while (rating > 5 || rating < 0) {
-                System.out.println("Error: Ratings are only from 0 - 5 stars! Try again.");
+            while (rating > 10 || rating < 0) {
+                System.out.println("Error: Ratings are only from 0 - 10 stars! Try again.");
                 Scanner sc1 = new Scanner(System.in);
-                System.out.println("Enter rating (0-5 stars): ");
+                System.out.println("Enter rating (0-10 stars): ");
                 rating = sc1.nextInt();
                 sc1.close();
             }
