@@ -3,6 +3,8 @@ import java.util.ArrayList;
 /**
  * Represents an episodic TV Series entry in the library.
  * <p>Extends the {@link MediaEntry} class and manages a collection of episodes.</p>
+ * @author Jimlor
+ * @version 1.4
  */
 public class TVSeries extends MediaEntry {
     /** The total expected number of episodes in the series. */
@@ -57,7 +59,7 @@ public class TVSeries extends MediaEntry {
     }
 
     /**
-     * Displays the core details of the TV series, including episode tracking progress.
+     * Displays the core details of the TV series
      */
     @Override
     public void displayDetails() {
