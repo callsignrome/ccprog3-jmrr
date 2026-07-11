@@ -9,6 +9,7 @@ public class MediaVault {
     int updateIdx;
     int initialRating;
     int rateIdx;
+    int viewIdx;
 
     System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
     System.out.println("                  Welcome to MediaVault!                  ");
@@ -77,9 +78,32 @@ public class MediaVault {
             }
             break;
           case 4:
+            if (myLibrary.getSize() == 0) {
+                System.out.println("Your library is empty!");
+                break;
+            }
+            myLibrary.displayLibrary();
+            System.out.print("Enter the number of the entry to view: ");
+            viewIdx = sc.nextInt() - 1;
+            sc.nextLine();
             
+            MediaEntry entryToView = myLibrary.getEntry(viewIdx);
+            if (entryToView != null) {
+                System.out.println("\n--- Entry Details ---");
+                myLibrary.displayEntry(entryToView);
+            } else {
+                System.out.println("Invalid entry number.");
+            }
+            break;
           case 5:
-              
+            System.out.println("\n--- " + currentUser.getUsername() + "'s Library ---");
+            if (myLibrary.getSize() == 0) {
+                System.out.println("No media in your library yet.");
+            } else {
+                myLibrary.displayLibrary();
+                System.out.println("\nTotal Items: " + myLibrary.getSize());
+            }
+            break;
           case 6:
             running = false;
             System.out.println("Goodbye, " + currentUser.getUsername() + "!");
