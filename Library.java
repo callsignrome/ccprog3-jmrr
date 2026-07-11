@@ -31,8 +31,8 @@ public class Library {
                 case 'y':
                     System.out.println("What did you think about " + m.getTitle() + "? (Press ENTER to submit)");
                     String review = sc.nextLine();
-                    sc.nextLine();
                     m.setReview(review);
+                    System.out.println("Rating and Review successfully added!");
                     break;
                 case 'n':
                     break;
