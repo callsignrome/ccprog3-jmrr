@@ -98,4 +98,50 @@ public class Library {
         else
             System.out.println("Your library is empty!");
     }
+
+    public void displayLibrary(String status) {
+        if (!media.isEmpty()) {
+            ArrayList<MediaEntry> filtered = new ArrayList<>();
+
+            for (MediaEntry mediaEntry : this.media) {
+                if (mediaEntry.getCurrentStatus().equals(status)) {
+                    filtered.add(mediaEntry);
+                }
+            }
+
+            System.out.println("Filter by: " + status);
+            if(filtered.isEmpty())
+                System.out.println("No matching items found.");
+            else
+                for(int j = 0; j < filtered.size(); j++) {
+                    System.out.println((j+1) + ". " + filtered.get(j).getTitle());
+            }
+        }
+        else
+            System.out.println("Your library is empty!");
+    }
+
+    public void displayLibrary(MediaEntry m) {
+        if (!media.isEmpty()) {
+            ArrayList<MediaEntry> filtered = new ArrayList<>();
+
+            for (MediaEntry mediaEntry : this.media) {
+                if (mediaEntry.getClass() == m.getClass()) {
+                    filtered.add(mediaEntry);
+                }
+            }
+
+            System.out.println("Filter by: " + m.getClass().getSimpleName());
+            if(filtered.isEmpty()) {
+                System.out.println("No matching items found.");
+            }
+            else {
+                for (int j = 0; j < filtered.size(); j++) {
+                    System.out.println((j + 1) + ". " + filtered.get(j).getTitle());
+                }
+            }
+        }
+        else
+            System.out.println("Your library is empty!");
+    }
 }
