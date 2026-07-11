@@ -88,7 +88,7 @@ public class Library {
     public int getSize() {
         return media.size();
     }
-    
+
     public void displayEntry(MediaEntry m) {
         System.out.println(m.getTitle());
         if (m instanceof TVSeries) {
@@ -120,6 +120,6 @@ public class Library {
 
     public void displayLibrary() {
         for(int i = 0; i < this.media.size(); i++)
-            System.out.println("[" + (i+1) + "]" + this.media.get(i).getTitle() + ": " + this.media.get(i).getCurrentStatus());
+            System.out.println("  [" + (i+1) + "] " + this.media.get(i).getTitle() + ": " + this.media.get(i).getCurrentStatus());
     }
 }
