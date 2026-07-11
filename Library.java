@@ -78,6 +78,17 @@ public class Library {
         this.media.remove(index);
     }
 
+    public MediaEntry getEntry(int index) {
+        if (index >= 0 && index < media.size()) {
+            return media.get(index);
+        }
+        return null;
+    }
+
+    public int getSize() {
+        return media.size();
+    }
+    
     public void displayEntry(MediaEntry m) {
         System.out.println(m.getTitle());
         if (m instanceof TVSeries) {
