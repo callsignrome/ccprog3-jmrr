@@ -1,16 +1,47 @@
 import java.util.*;
 
+/**
+ * Represents a library of media entries.
+ * <p>This class manages all operations that will be done on each MediaEntry</p>
+ *
+ * @author Raphael
+ * @version 1.3
+ */
 public class Library {
+    /** The list containing all media entries. */
     private ArrayList<MediaEntry> media;
 
+    /**
+     * Creates an empty Library.
+     */
     public Library() {
         this.media = new ArrayList<MediaEntry>();
     }
 
+    /**
+     * Adds a media entry to this component.
+     *
+     * @param m the <code>MediaEntry</code> that will be added.
+     */
     public void addEntry(MediaEntry m) {
         this.media.add(m);
     }
 
+    /**
+     * Rates a media entry from 0-10.
+     *
+     * <p>
+     *     <b>Preconditions: </b>
+     *     <ul>
+     *         <li> The media entry <code>m</code> must be designated as Completed before it can be rated.</li>
+     *         <li> The <code>rating</code> must be between 0-10 inclusive.</li>
+     *     </ul>
+     * </p>
+     *
+     * @param m the <code>MediaEntry</code> to be rated.
+     * @param rating the numerical rating (0-10) given to the media entry.
+     * @param sc the <code>Scanner</code> object used to read and validate user input.
+     */
     public void rateEntry(MediaEntry m, int rating, Scanner sc) {
         if (m.getCurrentStatus().equals(MediaEntry.STATUSES[2])) {
             // input validation for out of bounds rating
@@ -76,8 +107,14 @@ public class Library {
                 m.setCurrentStatus(MediaEntry.STATUSES[2]);
                 break;
         }
+        else System.out.println("You've already completed " + m.getTitle() + ".");
     }
 
+    /**
+     * Deletes a media entry from this component.
+     *
+     * @param index the index of the media entry.
+     */
     public void deleteEntry(int index) {
         this.media.remove(index);
     }
@@ -109,10 +146,106 @@ public class Library {
         }
     }
 
+    /**
+     * Displays all media entries currently stored in the library.
+     * <p>
+     * This method iterates through the entire library collection and prints each item's
+     * title alongside its current consumption status.
+     * </p>
+     *
+     * <p>
+     *     <b>Precondition:</b>
+     *     <ul>
+     *         <li>The <code>media</code> collection must be initialized (not null).</li>
+     *     </ul>
+     * </p>
+     */
     public void displayLibrary() {
         if (!media.isEmpty())
             for(int i = 0; i < this.media.size(); i++)
                 System.out.println("[" + (i+1) + "]" + this.media.get(i).getTitle() + ": " + this.media.get(i).getCurrentStatus());
+        else
+            System.out.println("Your library is empty!");
+    }
+
+    /**
+     * Displays a filtered list of media entries matching a specific status.
+     * <p>
+     * This method checks the status string of every media item in the library and displays
+     * only those that match the exact value passed in the <code>status</code> parameter.
+     * </p>
+     *
+     * <p>
+     *     <b>Preconditions:</b>
+     *     <ul>
+     *         <li>The <code>media</code> collection must be initialized (not null).</li>
+     *         <li>The <code>status</code> parameter should match one of the predefined
+     *             status constants (e.g., <code>MediaEntry.STATUSES</code>).</li>
+     *     </ul>
+     * </p>
+     *
+     * @param status the exact status text to filter the library entries by
+     */
+    public void displayLibrary(String status) {
+        if (!media.isEmpty()) {
+            ArrayList<MediaEntry> filtered = new ArrayList<>();
+
+            for (MediaEntry mediaEntry : this.media) {
+                if (mediaEntry.getCurrentStatus().equals(status)) {
+                    filtered.add(mediaEntry);
+                }
+            }
+
+            System.out.println("Filter by: " + status);
+            if(filtered.isEmpty())
+                System.out.println("No matching items found.");
+            else
+                for(int j = 0; j < filtered.size(); j++) {
+                    System.out.println((j+1) + ". " + filtered.get(j).getTitle());
+            }
+        }
+        else
+            System.out.println("Your library is empty!");
+    }
+
+    /**
+     * Displays a filtered list of media entries matching the exact class type of the provided object.
+     * <p>
+     * This method dynamically checks the runtime class of the passed <code>m</code> parameter
+     * and prints only the media entries in the library that share the identical subclass type
+     * (e.g., only <code>Book</code> objects, or only <code>Movie</code> objects).
+     * </p>
+     *
+     * <p>
+     *     <b>Preconditions:</b>
+     *     <ul>
+     *         <li>The <code>media</code> collection must be initialized (not null).</li>
+     *         <li>The parameter <code>m</code> must not be null.</li>
+     *     </ul>
+     * </p>
+     *
+     * @param m an instance of a <code>MediaEntry</code> subclass used to determine the class type to filter by
+     */
+    public void displayLibrary(MediaEntry m) {
+        if (!media.isEmpty()) {
+            ArrayList<MediaEntry> filtered = new ArrayList<>();
+
+            for (MediaEntry mediaEntry : this.media) {
+                if (mediaEntry.getClass() == m.getClass()) {
+                    filtered.add(mediaEntry);
+                }
+            }
+
+            System.out.println("Filter by: " + m.getClass().getSimpleName());
+            if(filtered.isEmpty()) {
+                System.out.println("No matching items found.");
+            }
+            else {
+                for (int j = 0; j < filtered.size(); j++) {
+                    System.out.println((j + 1) + ". " + filtered.get(j).getTitle());
+                }
+            }
+        }
         else
             System.out.println("Your library is empty!");
     }
