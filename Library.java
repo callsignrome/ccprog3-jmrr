@@ -52,7 +52,7 @@ public class Library {
                 sc.nextLine();
             }
             m.setRating(rating);
-            System.out.println("You've rated " + m.getTitle() + " " + rating + "stars!");
+            System.out.println("You've rated " + m.getTitle() + " " + rating + " stars!");
 
             System.out.println("Write a review? (y/n): ");
             char choice = sc.next().toLowerCase().charAt(0);
@@ -62,8 +62,8 @@ public class Library {
                 case 'y':
                     System.out.println("What did you think about " + m.getTitle() + "? (Press ENTER to submit)");
                     String review = sc.nextLine();
-                    sc.nextLine();
                     m.setReview(review);
+                    System.out.println("Rating and Review successfully added!");
                     break;
                 case 'n':
                     break;
@@ -77,34 +77,31 @@ public class Library {
 
     }
 
-    /**
-     * Advances the status of a media entry to the next progressive stage.
-     * <p>
-     * The status updates follow a linear progression:
-     * <ul>
-     *   <li>Planned (STATUSES[0]) &rarr; In Progress (STATUSES[1])</li>
-     *   <li>In Progress (STATUSES[1]) &rarr; Completed (STATUSES[2])</li>
-     * </ul>
-     * If the media entry is already completed, its status remains unchanged.
-     * </p>
-     *
-     * <p>
-     *     <b>Precondition:</b>
-     *     <ul>
-     *         <li>The <code>MediaEntry m</code> must not be null.</li>
-     *     </ul>
-     * </p>
-     *
-     * @param m the <code>MediaEntry</code> object whose status is being updated.
-     */
-    public void updateProgress(MediaEntry m) {
-        if (m.getCurrentStatus().equals(MediaEntry.STATUSES[0])) {
-            m.setCurrentStatus(MediaEntry.STATUSES[1]);
-            System.out.println("Set " + m.getTitle() + " as In Progress.");
+    public void updateProgress(MediaEntry m, Scanner sc) {
+        System.out.println("Update status to:");
+        for (int i = 0; i < MediaEntry.STATUSES.length; i++)
+            System.out.println("["+ (i+1) +"] " + MediaEntry.STATUSES[i]);
+        System.out.println("Enter: ");
+        int status = sc.nextInt();
+        sc.nextLine();
+
+        while (status > 2 || status < 0) {
+            System.out.println("Error: Input out of bounds. Try again: ");
+            System.out.print("Enter: ");
+            status = sc.nextInt();
+            sc.nextLine();
         }
-        else if (m.getCurrentStatus().equals(MediaEntry.STATUSES[1])) {
-            m.setCurrentStatus(MediaEntry.STATUSES[2]);
-            System.out.println("Set " + m.getTitle() + " as Completed.");
+
+        switch (status) {
+            case 0:
+                m.setCurrentStatus(MediaEntry.STATUSES[0]);
+                break;
+            case 1:
+                m.setCurrentStatus(MediaEntry.STATUSES[1]);
+                break;
+            case 2:
+                m.setCurrentStatus(MediaEntry.STATUSES[2]);
+                break;
         }
         else System.out.println("You've already completed " + m.getTitle() + ".");
     }
@@ -118,59 +115,30 @@ public class Library {
         this.media.remove(index);
     }
 
-    /**
-     * Displays the complete details of a specific media entry to the console.
-     * <p>
-     * If the media entry is an instance of <code>TVSeries</code>, it will additionally
-     * format and display the total episodes, and print a chronological list of episodes
-     * sorted by their season numbers.
-     * </p>
-     * <p>
-     * The rating and text review will only be displayed if the status of the
-     * media entry is Completed.
-     * </p>
-     *
-     * <p>
-     *     <b>Precondition:</b>
-     *     <ul>
-     *         <li>The parameter <code>m</code> must not be null.</li>
-     *     </ul>
-     * </p>
-     *
-     * @param m the <code>MediaEntry</code> object whose information is to be displayed
-     */
-    public void displayEntry(MediaEntry m) {
-        System.out.println(m.getTitle());
-
-        if (m instanceof TVSeries) {
-            TVSeries series = (TVSeries) m;
-
-            System.out.println("TV Series");
-            System.out.println("No. of episodes: " + series.getTotalEpisodes());
-            System.out.println("Episodes:");
-
-            ArrayList<Episode> eps = series.getEpisodes();
-            eps.sort(Comparator.comparing(Episode::getSeason));
-
-            for (int i = 0; i < eps.size(); i++) {
-                System.out.println((i + 1) + ". " + eps.get(i).getTitle());
-            }
-        } else {
-            System.out.println(m.getClass().getSimpleName());
+    public MediaEntry getEntry(int index) {
+        if (index >= 0 && index < media.size()) {
+            return media.get(index);
         }
+        return null;
+    }
 
-        System.out.println("Status: " + m.getCurrentStatus());
-        System.out.print("Rating: ");
+    public int getSize() {
+        return media.size();
+    }
 
+    public void displayEntry(MediaEntry m) {
+        m.displayDetails();
+        
         if (m.getCurrentStatus().equals(MediaEntry.STATUSES[2])) {
-            System.out.println(m.getRating());
-            if (m.getReview() != null && !m.getReview().isBlank()) {
-                System.out.println("Review: ");
-                System.out.println(m.getReview());
+            System.out.println("Your Rating: " + m.getRating() + "/10");
+            if (m.getReview() != null && !m.getReview().trim().isEmpty()) {
+                System.out.println("Your Review: " + m.getReview());
+            } else {
+                System.out.println("Your Review: (No review provided)");
             }
         } else {
-            System.out.println("not completed");
-            System.out.println("Review: not completed");
+            System.out.println("Rating: N/A (Finish it first!)");
+            System.out.println("Review: N/A");
         }
     }
 
