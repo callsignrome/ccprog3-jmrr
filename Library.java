@@ -90,31 +90,18 @@ public class Library {
     }
 
     public void displayEntry(MediaEntry m) {
-        System.out.println(m.getTitle());
-        if (m instanceof TVSeries) {
-            System.out.println("TV Series");
-            System.out.println("No. of episodes: " + ((TVSeries)m).getTotalEpisodes());
-            System.out.println("Episodes:");
-            ArrayList<Episode> eps = ((TVSeries)m).getEpisodes();
-            eps.sort(Comparator.comparing(Episode::getSeason));
-
-            for(int i = 0; i < ((TVSeries)m).getEpisodes().size(); i++)
-                System.out.println((i+1) + ". " + eps.get(i).getTitle());
-        } else {
-            System.out.println(m.getClass().getSimpleName());
-        }
-        System.out.println("Status: " + m.getCurrentStatus());
-        System.out.print("Rating: ");
-
+        m.displayDetails();
+        
         if (m.getCurrentStatus().equals(MediaEntry.STATUSES[2])) {
-            System.out.println(m.getRating());
-            if (m.getReview() != null) {
-                System.out.println("Review: ");
-                System.out.println(m.getReview());
+            System.out.println("Your Rating: " + m.getRating() + "/10");
+            if (m.getReview() != null && !m.getReview().trim().isEmpty()) {
+                System.out.println("Your Review: " + m.getReview());
+            } else {
+                System.out.println("Your Review: (No review provided)");
             }
         } else {
-            System.out.println("not completed");
-            System.out.println("Review: not completed");
+            System.out.println("Rating: N/A (Finish it first!)");
+            System.out.println("Review: N/A");
         }
     }
 
