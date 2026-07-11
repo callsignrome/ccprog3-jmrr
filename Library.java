@@ -46,32 +46,16 @@ public class Library {
 
     }
 
-    public void updateProgress(MediaEntry m, Scanner sc) {
-        System.out.println(m.getTitle() + ": " + m.getCurrentStatus());
-        System.out.println("Update status to:");
-        for (int i = 0; i < MediaEntry.STATUSES.length; i++)
-            System.out.println("["+ (i+1) +"] " + MediaEntry.STATUSES[i]);
-        System.out.println("Enter: ");
-        int status = sc.nextInt();
-        sc.nextLine();
-
-        while (status > 3 || status < 1) {
-            System.out.println("Error: Input out of bounds. Try again: ");
-            status = sc.nextInt();
-            sc.nextLine();
+    public void updateProgress(MediaEntry m) {
+        if (m.getCurrentStatus().equals(MediaEntry.STATUSES[0])) {
+            m.setCurrentStatus(MediaEntry.STATUSES[1]);
+            System.out.println("Set " + m.getTitle() + " as In Progress.");
         }
-
-        switch (status) {
-            case 1:
-                m.setCurrentStatus(MediaEntry.STATUSES[0]);
-                break;
-            case 2:
-                m.setCurrentStatus(MediaEntry.STATUSES[1]);
-                break;
-            case 3:
-                m.setCurrentStatus(MediaEntry.STATUSES[2]);
-                break;
+        else if (m.getCurrentStatus().equals(MediaEntry.STATUSES[1])) {
+            m.setCurrentStatus(MediaEntry.STATUSES[2]);
+            System.out.println("Set " + m.getTitle() + " as Completed.");
         }
+        else System.out.println("You've already completed " + m.getTitle() + ".");
     }
 
     public void deleteEntry(int index) {
