@@ -65,7 +65,7 @@ public class Library {
             case 0:
                 m.setCurrentStatus(MediaEntry.STATUSES[0]);
                 m.setRating(0);
-                m.setReview(null)
+                m.setReview(null);
                 break;
             case 1:
                 m.setCurrentStatus(MediaEntry.STATUSES[1]);
