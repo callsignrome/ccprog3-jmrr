@@ -77,6 +77,24 @@ public class Library {
 
     }
 
+    /**
+     * Updates the consumption status of a media entry based on user menu input.
+     * <p>
+     * Reverting an entry back to Planned or In Progress will automatically reset its
+     * user rating to 0 and its review to <code>null</code>.
+     * </p>
+     *
+     * <p>
+     *     <b>Preconditions:</b>
+     *     <ul>
+     *         <li>The parameter <code>m</code> must not be null.</li>
+     *         <li>The <code>Scanner sc</code> must be an initialized, open input stream.</li>
+     *     </ul>
+     * </p>
+     *
+     * @param m  the <code>MediaEntry</code> object whose status is being modified
+     * @param sc the <code>Scanner</code> object used to read the user's menu choice
+     */
     public void updateProgress(MediaEntry m, Scanner sc) {
         System.out.println("Update status to:");
         for (int i = 0; i < MediaEntry.STATUSES.length; i++)
@@ -96,7 +114,7 @@ public class Library {
             case 0:
                 m.setCurrentStatus(MediaEntry.STATUSES[0]);
                 m.setRating(0);
-                m.setReview(null)
+                m.setReview(null);
                 break;
             case 1:
                 m.setCurrentStatus(MediaEntry.STATUSES[1]);
@@ -107,7 +125,6 @@ public class Library {
                 m.setCurrentStatus(MediaEntry.STATUSES[2]);
                 break;
         }
-        else System.out.println("You've already completed " + m.getTitle() + ".");
     }
 
     /**
@@ -119,6 +136,24 @@ public class Library {
         this.media.remove(index);
     }
 
+    /**
+     * Retrieves a media entry from the library at the specified index position.
+     * <p>
+     * This method safely checks if the requested index is within the valid boundaries
+     * of the <code>media</code> collection before attempting retrieval.
+     * </p>
+     *
+     * <p>
+     *     <b>Precondition:</b>
+     *     <ul>
+     *         <li>The <code>media</code> collection must be initialized (not null).</li>
+     *     </ul>
+     * </p>
+     *
+     * @param index the zero-based position index of the media entry to retrieve
+     * @return the <code>MediaEntry</code> object found at the specified index,
+     *         or <code>null</code> if the index is out of bounds
+     */
     public MediaEntry getEntry(int index) {
         if (index >= 0 && index < media.size()) {
             return media.get(index);
@@ -126,10 +161,25 @@ public class Library {
         return null;
     }
 
+    /**
+     * Gets the number of entries inside this component.
+     *
+     * @return the size of <code>ArrayList media</code>.
+     */
     public int getSize() {
         return media.size();
     }
 
+    /**
+     * Prints the formatted, complete details of a specific media entry to the console.
+     *     <b>Precondition:</b>
+     *     <ul>
+     *         <li>The parameter <code>m</code> must not be null.</li>
+     *     </ul>
+     * </p>
+     *
+     * @param m the <code>MediaEntry</code> object whose information is to be displayed
+     */
     public void displayEntry(MediaEntry m) {
         m.displayDetails();
         
@@ -211,7 +261,7 @@ public class Library {
     /**
      * Displays a filtered list of media entries matching the exact class type of the provided object.
      * <p>
-     * This method dynamically checks the runtime class of the passed <code>m</code> parameter
+     * This method checks the runtime class of the passed <code>m</code> parameter
      * and prints only the media entries in the library that share the identical subclass type
      * (e.g., only <code>Book</code> objects, or only <code>Movie</code> objects).
      * </p>
