@@ -41,7 +41,11 @@ public class MediaVault {
           case 5:
               
           case 6:
-              
+            running = false;
+            System.out.println("Goodbye, " + currentUser.getUsername() + "!");
+            break;
+          default: 
+            System.out.println("Invalid option. Please try again.");
       }
     }
   
