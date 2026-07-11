@@ -7,6 +7,8 @@ public class MediaVault {
     String username;
     int choice;
     int updateIdx;
+    int initialRating;
+    int rateIdx;
 
     System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
     System.out.println("                  Welcome to MediaVault!                  ");
@@ -54,9 +56,28 @@ public class MediaVault {
             }
             break;
           case 3:
-              
+            if (myLibrary.getSize() == 0) {
+              System.out.println("Your library is empty!");
+              break;
+            }
+            myLibrary.displayLibrary();
+            System.out.print("Enter the number of the entry to rate: ");
+            rateIdx = sc.nextInt() - 1;
+            sc.nextLine();
+            
+            MediaEntry entryToRate = myLibrary.getEntry(rateIdx);
+            if (entryToRate != null) {
+                System.out.print("Enter initial rating (0-10 stars): ");
+                initialRating = sc.nextInt();
+                sc.nextLine();
+                
+                myLibrary.rateEntry(entryToRate, initialRating, sc);
+            } else {
+                System.out.println("Invalid entry number.");
+            }
+            break;
           case 4:
-              
+            
           case 5:
               
           case 6:
