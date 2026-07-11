@@ -50,7 +50,7 @@ public class Library {
         System.out.println(m.getTitle() + ": " + m.getCurrentStatus());
         System.out.println("Update status to:");
         for (int i = 0; i < MediaEntry.STATUSES.length; i++)
-            System.out.println("["+ i +"] " + MediaEntry.STATUSES[i]);
+            System.out.println("["+ (i+1) +"] " + MediaEntry.STATUSES[i]);
         System.out.println("Enter: ");
         int status = sc.nextInt();
         sc.nextLine();
@@ -108,7 +108,10 @@ public class Library {
     }
 
     public void displayLibrary() {
-        for(int i = 0; i < this.media.size(); i++)
-            System.out.println("[" + (i+1) + "]" + this.media.get(i).getTitle() + ": " + this.media.get(i).getCurrentStatus());
+        if (!media.isEmpty())
+            for(int i = 0; i < this.media.size(); i++)
+                System.out.println("[" + (i+1) + "]" + this.media.get(i).getTitle() + ": " + this.media.get(i).getCurrentStatus());
+        else
+            System.out.println("Your library is empty!");
     }
 }
