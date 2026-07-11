@@ -56,6 +56,7 @@ public class Library {
 
         while (status > 2 || status < 0) {
             System.out.println("Error: Input out of bounds. Try again: ");
+            System.out.print("Enter: ");
             status = sc.nextInt();
             sc.nextLine();
         }
