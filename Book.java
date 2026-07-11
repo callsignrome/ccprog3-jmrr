@@ -29,6 +29,5 @@ public class Book extends MediaEntry {
         System.out.println("Author: " + author);
         System.out.println("Genre: " + getGenre() + " | Status: " + getCurrentStatus());
         System.out.println("Length: " + pageCount + " pages");
-        System.out.println("---------------------------------------------------------");
     }
 }

@@ -28,6 +28,5 @@ public class Movie extends MediaEntry {
         System.out.println("Director: " + director);
         System.out.println("Genre: " + getGenre() + " | Status: " + getCurrentStatus());
         System.out.println("Runtime: " + runtimeMinutes + " mins");
-        System.out.println("---------------------------------------------------------");
     }
 }
