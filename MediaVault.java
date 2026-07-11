@@ -10,6 +10,7 @@ public class MediaVault {
     int initialRating;
     int rateIdx;
     int viewIdx;
+    int delIdx;
 
     System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
     System.out.println("                  Welcome to MediaVault!                  ");
@@ -27,7 +28,8 @@ public class MediaVault {
       System.out.println("  3 - Rate & Review a Completed Entry");
       System.out.println("  4 - View Full Details of an Entry");
       System.out.println("  5 - Display Entire Library");
-      System.out.println("  6 - Exit");
+      System.out.println("  6 - Delete an Entry");
+      System.out.println("  7 - Exit");
       System.out.println("-------------------------------------------------------");
       System.out.print("Select an option: ");
       
@@ -105,6 +107,23 @@ public class MediaVault {
             }
             break;
           case 6:
+            if (myLibrary.getSize() == 0) {
+              System.out.println("Your library is empty!");
+              break;
+            }
+            myLibrary.displayLibrary();
+            System.out.print("Enter the number of the entry to DELETE: ");
+            delIdx = sc.nextInt() - 1;
+            sc.nextLine();
+            
+            if (myLibrary.getEntry(delIdx) != null) {
+                myLibrary.deleteEntry(delIdx);
+                System.out.println("Entry successfully deleted.");
+            } else {
+                System.out.println("Invalid entry number.");
+            }
+            break;
+          case 7:
             running = false;
             System.out.println("Goodbye, " + currentUser.getUsername() + "!");
             break;
