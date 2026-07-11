@@ -21,7 +21,7 @@ public class Library {
                 sc.nextLine();
             }
             m.setRating(rating);
-            System.out.println("You've rated " + m.getTitle() + " " + rating + "stars!");
+            System.out.println("You've rated " + m.getTitle() + " " + rating + " stars!");
 
             System.out.println("Write a review? (y/n): ");
             char choice = sc.next().toLowerCase().charAt(0);
