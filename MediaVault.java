@@ -121,64 +121,60 @@ public class MediaVault {
             System.out.println("\n--- " + currentUser.getUsername() + "'s Library ---");
             if (myLibrary.getSize() == 0) {
                 System.out.println("No media in your library yet.");
-            } else {
+                break;
+            } 
+            
+            System.out.println("How would you like to display your library?");
+            System.out.println("  1 - Entire Library");
+            System.out.println("  2 - Filter by Status");
+            System.out.println("  3 - Filter by Media Type");
+            System.out.print("Choice: ");
+            int displayChoice = sc.nextInt();
+            sc.nextLine();
+            System.out.println(); 
+            
+            switch (displayChoice) {
+              case 1:
                 myLibrary.displayLibrary();
-                System.out.println("\nTotal Items: " + myLibrary.getSize());
-                System.out.println("Filter by:");
-                System.out.println("  1 - Status");
-                System.out.println("  2 - Media Type");
-
-                do {
-                    filterChoice = sc.nextInt();
-                    sc.nextLine();
-                } while (filterChoice < 1 || filterChoice > 2);
-
-                if (filterChoice == 1) {
-                    System.out.println("Filter by Status:");
-                    System.out.println("  1 - Planned");
-                    System.out.println("  2 - In Progress");
-                    System.out.println("  3 - Completed");
-
-                    do {
-                        statusChoice = sc.nextInt();
-                        sc.nextLine();
-                    } while (statusChoice < 1 || statusChoice > 3);
-
-                    switch (statusChoice) {
-                        case 1:
-                            myLibrary.displayLibrary(MediaEntry.STATUSES[0]);
-                            break;
-                        case 2:
-                            myLibrary.displayLibrary(MediaEntry.STATUSES[1]);
-                            break;
-                        case 3:
-                            myLibrary.displayLibrary(MediaEntry.STATUSES[2]);
-                            break;
-                    }
+                System.out.println("\nTotal Items in Library: " + myLibrary.getSize());
+                break;
+              case 2:
+                System.out.println("Select Status to filter by:");
+                for (int i = 0; i < MediaEntry.STATUSES.length; i++) {
+                    System.out.println("  " + (i + 1) + " - " + MediaEntry.STATUSES[i]);
                 }
-                else {
-                    System.out.println("Filter by Media Type:");
-                    System.out.println("  1 - Movie");
-                    System.out.println("  2 - Book");
-                    System.out.println("  3 - TV Series");
-
-                    do {
-                        mediaChoice = sc.nextInt();
-                        sc.nextLine();
-                    } while (mediaChoice < 1 || mediaChoice > 3);
-
-                    switch (mediaChoice) {
-                        case 1:
-                            myLibrary.displayLibrary(new Movie("","","","",1));
-                            break;
-                        case 2:
-                            myLibrary.displayLibrary(new Book("","","","", 1));
-                            break;
-                        case 3:
-                            myLibrary.displayLibrary(new TVSeries("","","", 1));
-                            break;
-                    }
+                System.out.print("Choice: ");
+                int statChoice = sc.nextInt();
+                sc.nextLine();
+                if (statChoice >= 1 && statChoice <= MediaEntry.STATUSES.length) {
+                    myLibrary.displayLibrary(MediaEntry.STATUSES[statChoice - 1]); 
+                } else {
+                    System.out.println("Invalid status choice.");
                 }
+                break;
+              case 3:
+                  System.out.println("Select Media Type to filter by:");
+                  System.out.println("  1 - Book");
+                  System.out.println("  2 - Movie");
+                  System.out.println("  3 - TV Series");
+                  System.out.print("Choice: ");
+                  int typeChoice = sc.nextInt();
+                  sc.nextLine();
+                  
+                  if (typeChoice == 1) {
+                      myLibrary.displayLibrary(new Book("", "", "", "", 0));
+                  } else if (typeChoice == 2) {
+                      myLibrary.displayLibrary(new Movie("", "", "", "", 0));
+                  } else if (typeChoice == 3) {
+                      myLibrary.displayLibrary(new TVSeries("", "", "", 0));
+                  } else {
+                      System.out.println("Invalid media type choice.");
+                  }
+                  break;
+              default:
+                  System.out.println("Invalid option. Displaying entire library by default:");
+                  myLibrary.displayLibrary();
+                  System.out.println("\nTotal Items in Library: " + myLibrary.getSize());
             }
             break;
           case 6:
