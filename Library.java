@@ -47,48 +47,41 @@ public class Library {
             // input validation for out of bounds rating
             while (rating > 10 || rating < 0) {
                 System.out.println("Error: Ratings are only from 0 - 10 stars! Try again.");
-                System.out.println("Enter rating (0-10 stars): ");
+                System.out.print("Enter rating (0-10 stars): ");
                 rating = sc.nextInt();
                 sc.nextLine();
             }
             m.setRating(rating);
             System.out.println("You've rated " + m.getTitle() + " " + rating + " stars!");
 
-            System.out.println("Write a review? (y/n): ");
+            System.out.print("Write a review? (y/n): ");
             char choice = sc.next().toLowerCase().charAt(0);
             sc.nextLine();
 
-            switch (choice) {
-                case 'y':
-                    System.out.println("What did you think about " + m.getTitle() + "? (Press ENTER to submit)");
-                    String review = sc.nextLine();
-                    m.setReview(review);
-                    System.out.println("Rating and Review successfully added!");
-                    break;
-                case 'n':
-                    break;
-                default:
-                    System.out.println("Invalid input. Try putting a review again later!");
-                    break;
+            if (choice == 'y') {
+                System.out.println("What did you think about " + m.getTitle() + "? (Press ENTER to submit)");
+                String review = sc.nextLine();
+                m.setReview(review);
+                System.out.println("Rating and Review successfully added!");
             }
-        }
-        else
+        } 
+        else {
             System.out.println("You haven't finished this yet. Rate it when you do!");
-
+        }
     }
 
     public void updateProgress(MediaEntry m, Scanner sc) {
         System.out.println("Update status to:");
         for (int i = 0; i < MediaEntry.STATUSES.length; i++)
             System.out.println("["+ (i+1) +"] " + MediaEntry.STATUSES[i]);
-        System.out.println("Enter: ");
-        int status = sc.nextInt();
+        System.out.print("Enter: ");
+        int status = sc.nextInt() - 1; 
         sc.nextLine();
 
         while (status > 2 || status < 0) {
             System.out.println("Error: Input out of bounds. Try again: ");
             System.out.print("Enter: ");
-            status = sc.nextInt();
+            status = sc.nextInt() - 1;
             sc.nextLine();
         }
 
@@ -107,7 +100,6 @@ public class Library {
                 m.setCurrentStatus(MediaEntry.STATUSES[2]);
                 break;
         }
-        else System.out.println("You've already completed " + m.getTitle() + ".");
     }
 
     /**
