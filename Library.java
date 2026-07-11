@@ -21,7 +21,7 @@ public class Library {
                 sc.nextLine();
             }
             m.setRating(rating);
-            System.out.println("You've rated " + m.getTitle() + " " + rating + "stars!");
+            System.out.println("You've rated " + m.getTitle() + " " + rating + " stars!");
 
             System.out.println("Write a review? (y/n): ");
             char choice = sc.next().toLowerCase().charAt(0);
@@ -31,8 +31,8 @@ public class Library {
                 case 'y':
                     System.out.println("What did you think about " + m.getTitle() + "? (Press ENTER to submit)");
                     String review = sc.nextLine();
-                    sc.nextLine();
                     m.setReview(review);
+                    System.out.println("Rating and Review successfully added!");
                     break;
                 case 'n':
                     break;
@@ -47,7 +47,6 @@ public class Library {
     }
 
     public void updateProgress(MediaEntry m, Scanner sc) {
-        System.out.println(m.getTitle() + ": " + m.getCurrentStatus());
         System.out.println("Update status to:");
         for (int i = 0; i < MediaEntry.STATUSES.length; i++)
             System.out.println("["+ (i+1) +"] " + MediaEntry.STATUSES[i]);
@@ -55,20 +54,21 @@ public class Library {
         int status = sc.nextInt();
         sc.nextLine();
 
-        while (status > 3 || status < 1) {
+        while (status > 2 || status < 0) {
             System.out.println("Error: Input out of bounds. Try again: ");
+            System.out.print("Enter: ");
             status = sc.nextInt();
             sc.nextLine();
         }
 
         switch (status) {
-            case 1:
+            case 0:
                 m.setCurrentStatus(MediaEntry.STATUSES[0]);
                 break;
-            case 2:
+            case 1:
                 m.setCurrentStatus(MediaEntry.STATUSES[1]);
                 break;
-            case 3:
+            case 2:
                 m.setCurrentStatus(MediaEntry.STATUSES[2]);
                 break;
         }
@@ -78,32 +78,30 @@ public class Library {
         this.media.remove(index);
     }
 
-    public void displayEntry(MediaEntry m) {
-        System.out.println(m.getTitle());
-        if (m instanceof TVSeries) {
-            System.out.println("TV Series");
-            System.out.println("No. of episodes: " + ((TVSeries)m).getTotalEpisodes());
-            System.out.println("Episodes:");
-            ArrayList<Episode> eps = ((TVSeries)m).getEpisodes();
-            eps.sort(Comparator.comparing(Episode::getSeason));
-
-            for(int i = 0; i < ((TVSeries)m).getEpisodes().size(); i++)
-                System.out.println((i+1) + ". " + eps.get(i).getTitle());
-        } else {
-            System.out.println(m.getClass().getSimpleName());
+    public MediaEntry getEntry(int index) {
+        if (index >= 0 && index < media.size()) {
+            return media.get(index);
         }
-        System.out.println("Status: " + m.getCurrentStatus());
-        System.out.print("Rating: ");
+        return null;
+    }
 
+    public int getSize() {
+        return media.size();
+    }
+
+    public void displayEntry(MediaEntry m) {
+        m.displayDetails();
+        
         if (m.getCurrentStatus().equals(MediaEntry.STATUSES[2])) {
-            System.out.println(m.getRating());
-            if (m.getReview() != null) {
-                System.out.println("Review: ");
-                System.out.println(m.getReview());
+            System.out.println("Your Rating: " + m.getRating() + "/10");
+            if (m.getReview() != null && !m.getReview().trim().isEmpty()) {
+                System.out.println("Your Review: " + m.getReview());
+            } else {
+                System.out.println("Your Review: (No review provided)");
             }
         } else {
-            System.out.println("not completed");
-            System.out.println("Review: not completed");
+            System.out.println("Rating: N/A (Finish it first!)");
+            System.out.println("Review: N/A");
         }
     }
 

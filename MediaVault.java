@@ -1,95 +1,199 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class MediaVault {
-  public static void main(String[] args) {
+  public static void main(String args[]) {
     Scanner sc = new Scanner(System.in);
+    boolean running = true;
     String username;
-    boolean choseExit = false;
     int choice;
+    int updateIdx;
+    int initialRating;
+    int rateIdx;
+    int viewIdx;
 
-    System.out.println("Welcome to your Media Vault!");
-    System.out.println("Enter username: ");
+    System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
+    System.out.println("                  Welcome to MediaVault!                  ");
+    System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
+    
+    System.out.print("Enter your username to begin: ");
     username = sc.nextLine();
-    sc.nextLine();
-    User user = new User(username);
+    User currentUser = new User(username);
+    Library myLibrary = currentUser.getLibrary();
 
-    System.out.println("Welcome " + user.getUsername() + "!");
-
-    while(!choseExit) {
-      System.out.println("What would you like to do, " + user.getUsername() + "?");
-      System.out.println("  [1] Open Library");
-      System.out.println("  [2] Add media");
-      System.out.println("  [3] Rate media");
-      System.out.println("  [4] Exit");
-      System.out.println("   ");
+    while (running) {
+      System.out.println("\n--------------------- MAIN MENU ---------------------");
+      System.out.println("  1 - Add a New Media Entry");
+      System.out.println("  2 - Update Entry Status");
+      System.out.println("  3 - Rate & Review a Completed Entry");
+      System.out.println("  4 - View Full Details of an Entry");
+      System.out.println("  5 - Display Entire Library");
+      System.out.println("  6 - Exit");
+      System.out.println("-------------------------------------------------------");
+      System.out.print("Select an option: ");
+      
       choice = sc.nextInt();
-      sc.nextLine();
-
-      while (choice < 1 || choice > 4) {
-        choice = sc.nextInt();
-        sc.nextLine();
+      sc.nextLine(); 
+      
+      switch (choice) {
+          case 1:
+            addMediaMenu(sc, myLibrary);
+            break;
+          case 2:
+            if (myLibrary.getSize() == 0) {
+              System.out.println("Your library is empty!");
+              break;
+            }
+            myLibrary.displayLibrary();
+            System.out.print("Enter the number of the entry to update: ");
+            updateIdx = sc.nextInt() - 1;
+            sc.nextLine();
+            
+            MediaEntry entryToUpdate = myLibrary.getEntry(updateIdx);
+            if (entryToUpdate != null) {
+                myLibrary.updateProgress(entryToUpdate, sc);
+                System.out.println("Status updated successfully.");
+            } else {
+                System.out.println("Invalid entry number.");
+            }
+            break;
+          case 3:
+            if (myLibrary.getSize() == 0) {
+              System.out.println("Your library is empty!");
+              break;
+            }
+            myLibrary.displayLibrary();
+            System.out.print("Enter the number of the entry to rate: ");
+            rateIdx = sc.nextInt() - 1;
+            sc.nextLine();
+            
+            MediaEntry entryToRate = myLibrary.getEntry(rateIdx);
+            if (entryToRate != null) {
+                System.out.print("Enter initial rating (0-10 stars): ");
+                initialRating = sc.nextInt();
+                sc.nextLine();
+                
+                myLibrary.rateEntry(entryToRate, initialRating, sc);
+            } else {
+                System.out.println("Invalid entry number.");
+            }
+            break;
+          case 4:
+            if (myLibrary.getSize() == 0) {
+                System.out.println("Your library is empty!");
+                break;
+            }
+            myLibrary.displayLibrary();
+            System.out.print("Enter the number of the entry to view: ");
+            viewIdx = sc.nextInt() - 1;
+            sc.nextLine();
+            
+            MediaEntry entryToView = myLibrary.getEntry(viewIdx);
+            if (entryToView != null) {
+                System.out.println("\n--- Entry Details ---");
+                myLibrary.displayEntry(entryToView);
+            } else {
+                System.out.println("Invalid entry number.");
+            }
+            break;
+          case 5:
+            System.out.println("\n--- " + currentUser.getUsername() + "'s Library ---");
+            if (myLibrary.getSize() == 0) {
+                System.out.println("No media in your library yet.");
+            } else {
+                myLibrary.displayLibrary();
+                System.out.println("\nTotal Items: " + myLibrary.getSize());
+            }
+            break;
+          case 6:
+            running = false;
+            System.out.println("Goodbye, " + currentUser.getUsername() + "!");
+            break;
+          default: 
+            System.out.println("Invalid option. Please try again.");
       }
+    }
+  
+    sc.close(); 
+  }
 
-      if(choice == 1) {
-        user.getLibrary().displayLibrary();
-      }
-      else if (choice == 2) {
-        int mediaType;
-        System.out.println("Media Type:");
-        System.out.println("  [1] Movie");
-        System.out.println("  [2] Book");
-        System.out.println("  [3] TV Series");
-        mediaType = sc.nextInt();
-        sc.nextLine();
+  private static void addMediaMenu(Scanner sc, Library library) {
+        int type;
+        String title;
+        String genre;
+        int statusChoice;
+        String status;
+        String author;
+        int pages;
+        String director;
+        int runtime;
+        int episodes;
 
-        while(mediaType < 1 || mediaType > 3) {
-          mediaType = sc.nextInt();
+        System.out.println("\nWhat type of media are you adding?");
+        System.out.println("  1 - Book");
+        System.out.println("  2 - Movie");
+        System.out.println("  3 - TV Series");
+        System.out.print("Choice: ");
+
+        type = sc.nextInt();
+        sc.nextLine(); 
+        while (type != 1 && type != 2 && type != 3) {
+          System.out.println("Invalid choice. Please try again.");
+          System.out.print("Choice: ");
+          type = sc.nextInt();
           sc.nextLine();
         }
 
-        switch(mediaType) {
-          case 1:
-            String title, genre, director, status;
-            int runtime, movChoice;
+        System.out.print("Enter Title: ");
+        title = sc.nextLine();
+        
+        System.out.print("Enter Genre: ");
+        genre = sc.nextLine();
+        
+        System.out.println("Select Status:");
+        System.out.println("  1 - Planned");
+        System.out.println("  2 - In Progress");
+        System.out.print("Choice (Completed items must be updated later): ");
+        statusChoice = sc.nextInt();
+        sc.nextLine();
 
-            System.out.println("Enter Movie's Title: ");
-            title = sc.nextLine();
-            sc.nextLine();
-            System.out.println("Enter Movie's Genre: ");
-            genre = sc.nextLine();
-            sc.nextLine();
-            System.out.println("Enter Movie's Director: ");
-            director = sc.nextLine();
-            sc.nextLine();
-            System.out.println("Planned, In Progress, or Completed?");;
-            System.out.println("  [1] Planned");
-            System.out.println("  [2] In Progress");
-            System.out.println("  [3] Completed");
-            movChoice = sc.nextInt();
-            sc.nextLine();
-
-            while(movChoice < 1 || movChoice > 3) {
-              movChoice = sc.nextInt();
-              sc.nextLine();
-            }
-
-            if (movChoice == 1)
-              status = MediaEntry.STATUSES[0];
-            else if (movChoice == 2)
-              status = MediaEntry.STATUSES[1];
-            else
-              status = MediaEntry.STATUSES[2];
-
-            System.out.println("Enter Movie's Runtime in Minutes: ");
-            runtime = sc.nextInt();
-            sc.nextLine();
-
-            user.getLibrary().addEntry(new Movie(title, genre, status, director, runtime));
-            break;
-          case 2:
-
+        while (statusChoice != 1 && statusChoice != 2) {
+          System.out.println("Invalid choice. Please try again.");
+          System.out.print("Choice (Completed items must be updated later): ");
+          statusChoice = sc.nextInt();
+          sc.nextLine();
         }
-      }
+
+        status = statusChoice == 2 ? MediaEntry.STATUSES[1] : MediaEntry.STATUSES[0];
+
+        switch (type) {
+            case 1:
+                System.out.print("Enter Author: ");
+                author = sc.nextLine();
+                System.out.print("Enter Page Count: ");
+                pages = sc.nextInt();
+                sc.nextLine();
+                library.addEntry(new Book(title, genre, status, author, pages));
+                System.out.println("Book added successfully!");
+                break;
+            case 2:
+                System.out.print("Enter Director: ");
+                director = sc.nextLine();
+                System.out.print("Enter Runtime (in minutes): ");
+                runtime = sc.nextInt();
+                sc.nextLine();
+                library.addEntry(new Movie(title, genre, status, director, runtime));
+                System.out.println("Movie added successfully!");
+                break;
+            case 3:
+                System.out.print("Enter Total Number of Episodes: ");
+                episodes = sc.nextInt();
+                sc.nextLine();
+                library.addEntry(new TVSeries(title, genre, status, episodes));
+                System.out.println("TV Series added successfully!");
+                break;
+            default:
+                System.out.println("Invalid media type. Cancelled.");
+        }
     }
-  }
 }
+
