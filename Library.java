@@ -49,25 +49,25 @@ public class Library {
     public void updateProgress(MediaEntry m, Scanner sc) {
         System.out.println("Update status to:");
         for (int i = 0; i < MediaEntry.STATUSES.length; i++)
-            System.out.println("["+ i +"] " + MediaEntry.STATUSES[i]);
-        System.out.println("Enter: ");
+            System.out.println("  ["+ i +"] " + MediaEntry.STATUSES[i]);
+        System.out.print("Enter: ");
         int status = sc.nextInt();
         sc.nextLine();
 
-        while (status > 3 || status < 1) {
+        while (status > 2 || status < 0) {
             System.out.println("Error: Input out of bounds. Try again: ");
             status = sc.nextInt();
             sc.nextLine();
         }
 
         switch (status) {
-            case 1:
+            case 0:
                 m.setCurrentStatus(MediaEntry.STATUSES[0]);
                 break;
-            case 2:
+            case 1:
                 m.setCurrentStatus(MediaEntry.STATUSES[1]);
                 break;
-            case 3:
+            case 2:
                 m.setCurrentStatus(MediaEntry.STATUSES[2]);
                 break;
         }
