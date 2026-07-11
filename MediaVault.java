@@ -80,10 +80,11 @@ public class MediaVault {
             }
             break;
           case 4:
-            if (myLibrary.getSize() == 0) {
-                System.out.println("Your library is empty!");
-                break;
+           if (myLibrary.getSize() == 0) {
+              System.out.println("Your library is empty!");
+              break;
             }
+
             myLibrary.displayLibrary();
             System.out.print("Enter the number of the entry to view: ");
             viewIdx = sc.nextInt() - 1;
@@ -91,8 +92,24 @@ public class MediaVault {
             
             MediaEntry entryToView = myLibrary.getEntry(viewIdx);
             if (entryToView != null) {
-                System.out.println("\n--- Entry Details ---");
+                System.out.println("\n-----------------------------------------");
+                System.out.println("              ENTRY DETAILS              ");
+                System.out.println("-----------------------------------------");
                 myLibrary.displayEntry(entryToView);
+                
+                if (entryToView instanceof TVSeries) {
+                    TVSeries tvs = (TVSeries) entryToView;
+                    ArrayList<Episode> eps = tvs.getEpisodes();
+                    System.out.println("\n------- Episode List --------");
+                    if (!eps.isEmpty()) {
+                        for (Episode ep : eps) {
+                            ep.displayDetails();
+                        }
+                    } else {
+                        System.out.println("No episodes added.");
+                    }
+                }
+                System.out.println("-----------------------------------------");
             } else {
                 System.out.println("Invalid entry number.");
             }
@@ -207,8 +224,17 @@ public class MediaVault {
                 System.out.print("Enter Total Number of Episodes: ");
                 episodes = sc.nextInt();
                 sc.nextLine();
-                library.addEntry(new TVSeries(title, genre, status, episodes));
-                System.out.println("TV Series added successfully!");
+                TVSeries newSeries = new TVSeries(title, genre, status, episodes);
+                
+                System.out.println("Let's add the episode titles for this series.");
+                for (int i = 1; i <= episodes; i++) {
+                    System.out.print("Enter title for Episode " + i + ": ");
+                    String epTitle = sc.nextLine();
+                    newSeries.addEpisode(new Episode(epTitle, i, 1)); 
+                }
+                
+                library.addEntry(newSeries);
+                System.out.println("TV Series and episodes added successfully!");
                 break;
             default:
                 System.out.println("Invalid media type. Cancelled.");
