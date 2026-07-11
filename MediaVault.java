@@ -4,6 +4,7 @@ public class MediaVault {
   public static void main(String args[]) {
     Scanner sc = new Scanner(System.in);
     boolean running = true;
+    String username;
     int choice;
 
     System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
@@ -11,7 +12,7 @@ public class MediaVault {
     System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
     
     System.out.print("Enter your username to begin: ");
-    String username = sc.nextLine();
+    username = sc.nextLine();
     User currentUser = new User(username);
     Library myLibrary = currentUser.getLibrary();
 
@@ -31,7 +32,8 @@ public class MediaVault {
       
       switch (choice) {
           case 1:
-              
+            addMediaMenu(sc, myLibrary);
+            break;
           case 2:
               
           case 3:
@@ -51,5 +53,85 @@ public class MediaVault {
   
     sc.close(); 
   }
+
+  private static void addMediaMenu(Scanner sc, Library library) {
+        int type;
+        String title;
+        String genre;
+        int statusChoice;
+        String status;
+        String author;
+        int pages;
+        String director;
+        int runtime;
+        int episodes;
+
+        System.out.println("\nWhat type of media are you adding?");
+        System.out.println("  1 - Book");
+        System.out.println("  2 - Movie");
+        System.out.println("  3 - TV Series");
+        System.out.print("Choice: ");
+
+        type = sc.nextInt();
+        sc.nextLine(); 
+        while (type != 1 && type != 2 && type != 3) {
+          System.out.println("Invalid choice. Please try again.");
+          System.out.print("Choice: ");
+          type = sc.nextInt();
+          sc.nextLine();
+        }
+
+        System.out.print("Enter Title: ");
+        title = sc.nextLine();
+        
+        System.out.print("Enter Genre: ");
+        genre = sc.nextLine();
+        
+        System.out.println("Select Status:");
+        System.out.println("  1 - Planned");
+        System.out.println("  2 - In Progress");
+        System.out.print("Choice (Completed items must be updated later): ");
+        statusChoice = sc.nextInt();
+        sc.nextLine();
+
+        while (statusChoice != 1 && statusChoice != 2) {
+          System.out.println("Invalid choice. Please try again.");
+          System.out.print("Choice (Completed items must be updated later): ");
+          statusChoice = sc.nextInt();
+          sc.nextLine();
+        }
+
+        status = statusChoice == 2 ? MediaEntry.STATUSES[1] : MediaEntry.STATUSES[0];
+
+        switch (type) {
+            case 1:
+                System.out.print("Enter Author: ");
+                author = sc.nextLine();
+                System.out.print("Enter Page Count: ");
+                pages = sc.nextInt();
+                sc.nextLine();
+                library.addEntry(new Book(title, genre, status, author, pages));
+                System.out.println("Book added successfully!");
+                break;
+            case 2:
+                System.out.print("Enter Director: ");
+                director = sc.nextLine();
+                System.out.print("Enter Runtime (in minutes): ");
+                runtime = sc.nextInt();
+                sc.nextLine();
+                library.addEntry(new Movie(title, genre, status, director, runtime));
+                System.out.println("Movie added successfully!");
+                break;
+            case 3:
+                System.out.print("Enter Total Number of Episodes: ");
+                episodes = sc.nextInt();
+                sc.nextLine();
+                library.addEntry(new TVSeries(title, genre, status, episodes));
+                System.out.println("TV Series added successfully!");
+                break;
+            default:
+                System.out.println("Invalid media type. Cancelled.");
+        }
+    }
 }
 
