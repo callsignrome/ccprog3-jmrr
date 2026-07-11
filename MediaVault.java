@@ -8,6 +8,9 @@ public class MediaVault {
     int choice;
     int updateIdx;
     int initialRating;
+    int filterChoice;
+    int statusChoice;
+    int mediaChoice;
     int rateIdx;
     int viewIdx;
     int delIdx;
@@ -121,6 +124,61 @@ public class MediaVault {
             } else {
                 myLibrary.displayLibrary();
                 System.out.println("\nTotal Items: " + myLibrary.getSize());
+                System.out.println("Filter by:");
+                System.out.println("  1 - Status");
+                System.out.println("  2 - Media Type");
+
+                do {
+                    filterChoice = sc.nextInt();
+                    sc.nextLine();
+                } while (filterChoice < 1 || filterChoice > 2);
+
+                if (filterChoice == 1) {
+                    System.out.println("Filter by Status:");
+                    System.out.println("  1 - Planned");
+                    System.out.println("  2 - In Progress");
+                    System.out.println("  3 - Completed");
+
+                    do {
+                        statusChoice = sc.nextInt();
+                        sc.nextLine();
+                    } while (statusChoice < 1 || statusChoice > 3);
+
+                    switch (statusChoice) {
+                        case 1:
+                            myLibrary.displayLibrary(MediaEntry.STATUSES[0]);
+                            break;
+                        case 2:
+                            myLibrary.displayLibrary(MediaEntry.STATUSES[1]);
+                            break;
+                        case 3:
+                            myLibrary.displayLibrary(MediaEntry.STATUSES[2]);
+                            break;
+                    }
+                }
+                else {
+                    System.out.println("Filter by Media Type:");
+                    System.out.println("  1 - Movie");
+                    System.out.println("  2 - Book");
+                    System.out.println("  3 - TV Series");
+
+                    do {
+                        mediaChoice = sc.nextInt();
+                        sc.nextLine();
+                    } while (mediaChoice < 1 || mediaChoice > 3);
+
+                    switch (mediaChoice) {
+                        case 1:
+                            myLibrary.displayLibrary(new Movie("","","","",1));
+                            break;
+                        case 2:
+                            myLibrary.displayLibrary(new Book("","","","", 1));
+                            break;
+                        case 3:
+                            myLibrary.displayLibrary(new TVSeries("","","", 1));
+                            break;
+                    }
+                }
             }
             break;
           case 6:
