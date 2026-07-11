@@ -61,29 +61,22 @@ public class MediaVault {
             System.out.println("Enter Movie's Director: ");
             director = sc.nextLine();
             sc.nextLine();
-            System.out.println("Planned, In Progress, or Completed?");;
+            System.out.println("Planned or In Progress?");;
             System.out.println("  [1] Planned");
             System.out.println("  [2] In Progress");
-            System.out.println("  [3] Completed");
-            movChoice = sc.nextInt();
-            sc.nextLine();
 
-            while(movChoice < 1 || movChoice > 3) {
+            do {
               movChoice = sc.nextInt();
               sc.nextLine();
-            }
+            } while (movChoice < 1 || movChoice > 2);
 
             if (movChoice == 1)
               status = MediaEntry.STATUSES[0];
-            else if (movChoice == 2)
-              status = MediaEntry.STATUSES[1];
-            else
-              status = MediaEntry.STATUSES[2];
+            else status = MediaEntry.STATUSES[1];
 
             System.out.println("Enter Movie's Runtime in Minutes: ");
             runtime = sc.nextInt();
             sc.nextLine();
-
             user.getLibrary().addEntry(new Movie(title, genre, status, director, runtime));
             break;
           case 2:
