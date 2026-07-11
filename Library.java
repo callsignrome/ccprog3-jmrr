@@ -245,8 +245,8 @@ public class Library {
             else
                 for(int j = 0; j < filtered.size(); j++) {
                     System.out.println((j+1) + ". " + filtered.get(j).getTitle());
-                    System.out.println("\nTotal Items: " + filtered.size());
             }
+            System.out.println("\nTotal Items: " + filtered.size());
         }
         else
             System.out.println("Your library is empty!");
@@ -287,8 +287,8 @@ public class Library {
             else {
                 for (int j = 0; j < filtered.size(); j++) {
                     System.out.println((j + 1) + ". " + filtered.get(j).getTitle());
-                    System.out.println("\nTotal Items: " + filtered.size());
                 }
+                System.out.println("\nTotal Items: " + filtered.size());
             }
         }
         else
