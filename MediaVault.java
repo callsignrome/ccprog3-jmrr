@@ -6,6 +6,7 @@ public class MediaVault {
     boolean running = true;
     String username;
     int choice;
+    int updateIdx;
 
     System.out.println("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-");
     System.out.println("                  Welcome to MediaVault!                  ");
@@ -35,7 +36,23 @@ public class MediaVault {
             addMediaMenu(sc, myLibrary);
             break;
           case 2:
-              
+            if (myLibrary.getSize() == 0) {
+              System.out.println("Your library is empty!");
+              break;
+            }
+            myLibrary.displayLibrary();
+            System.out.print("Enter the number of the entry to update: ");
+            updateIdx = sc.nextInt() - 1;
+            sc.nextLine();
+            
+            MediaEntry entryToUpdate = myLibrary.getEntry(updateIdx);
+            if (entryToUpdate != null) {
+                myLibrary.updateProgress(entryToUpdate, sc);
+                System.out.println("Status updated successfully.");
+            } else {
+                System.out.println("Invalid entry number.");
+            }
+            break;
           case 3:
               
           case 4:
