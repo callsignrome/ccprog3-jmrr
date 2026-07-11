@@ -64,9 +64,13 @@ public class Library {
         switch (status) {
             case 0:
                 m.setCurrentStatus(MediaEntry.STATUSES[0]);
+                m.setRating(0);
+                m.setReview(null);
                 break;
             case 1:
                 m.setCurrentStatus(MediaEntry.STATUSES[1]);
+                m.setRating(0);
+                m.setReview(null);
                 break;
             case 2:
                 m.setCurrentStatus(MediaEntry.STATUSES[2]);
