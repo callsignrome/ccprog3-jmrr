@@ -47,7 +47,6 @@ public class Library {
     }
 
     public void updateProgress(MediaEntry m, Scanner sc) {
-        System.out.println(m.getTitle() + ": " + m.getCurrentStatus());
         System.out.println("Update status to:");
         for (int i = 0; i < MediaEntry.STATUSES.length; i++)
             System.out.println("["+ i +"] " + MediaEntry.STATUSES[i]);
